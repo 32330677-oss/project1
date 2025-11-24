@@ -11,6 +11,11 @@ class FoodItem extends StatefulWidget {
 }
 
 class _FoodItemState extends State<FoodItem> {
+    String getItemCaloriesDisplay() {
+    final kcal = widget.food["kcal"];
+    return "$kcal cal";
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,7 +41,7 @@ class _FoodItemState extends State<FoodItem> {
               style: TextStyle(fontWeight:
               FontWeight.bold, fontSize: 18),
             ),
-            subtitle: Text("${widget.food["kcal"]}kcal"),
+           subtitle: Text(getItemCaloriesDisplay()), 
                 trailing: SizedBox(
                 width: 120,
                 child: Row(

@@ -12,7 +12,7 @@ class MealPlannerScreen extends StatefulWidget {
 
 class _MealPlannerScreenState extends State<MealPlannerScreen> {
   num totalCalories = 0;
-
+ bool useKilocalories = false;
   void calculateCalories() {
     num sum = 0;
     for (var item in foodList) {
@@ -22,7 +22,18 @@ class _MealPlannerScreenState extends State<MealPlannerScreen> {
       totalCalories = sum;
     });
   }
+String getDisplayCalories() {
+  if (useKilocalories) {
+    return (totalCalories / 1000).toStringAsFixed(2); // Convert to kcal
+  } else {
+    return totalCalories.toString(); // Keep as calories
+  }
+}
 
+
+String getCalorieUnit() {
+  return useKilocalories ? "kcal" : "cal";
+}
   void reset() {
     for (var item in foodList) {
       item['count'] = 0;
@@ -48,6 +59,58 @@ class _MealPlannerScreenState extends State<MealPlannerScreen> {
                   FoodItem(food: foodList[i], onChanged: () => setState(() {})),
             ),
           ),
+
+
+
+
+
+
+
+  Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.deepOrange.withOpacity(0.3)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.fitness_center,
+                color: Colors.deepOrange,
+              ),
+              SizedBox(width: 10),
+              Text(
+                "Show in kilocalories",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10),
+              Checkbox(
+                value: useKilocalories,
+                onChanged: (bool? value) {
+                  setState(() {
+                    useKilocalories = value ?? false;
+                  });
+                },
+                activeColor: Colors.deepOrange,
+              ),
+            ],
+          ),
+        ),
+
+
+
+
+
+
+
+
+
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -74,7 +137,7 @@ class _MealPlannerScreenState extends State<MealPlannerScreen> {
           ),
           SizedBox(height: 10),
 
-          Text("Total: $totalCalories kcal",
+          Text("Total: ${getDisplayCalories()} ${getCalorieUnit()}",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,color: Colors.deepOrange)),
           SizedBox(height: 10),
         ],
