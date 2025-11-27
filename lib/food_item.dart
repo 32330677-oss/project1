@@ -12,8 +12,8 @@ class FoodItem extends StatefulWidget {
 
 class _FoodItemState extends State<FoodItem> {
     String getItemCaloriesDisplay() {
-    final kcal = widget.food["kcal"];
-    return "$kcal cal";
+    final cal = widget.food["cal"];
+    return "$cal cal";
   }
   
   @override
